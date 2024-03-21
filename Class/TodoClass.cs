@@ -24,12 +24,15 @@ namespace WebOopPrac_Api.Class
 
             try
             {
+                long Unqid = IDGenerator.GenerateID();
+
                 using var conn = new SqlConnection(_configuration.GetConnectionString("JDataBase"));
                 {
                     var param = new DynamicParameters();
                     param.Add("title", title);
                     param.Add("description", description);
                     param.Add("IsCompleted", IsCompleted);
+                    param.Add("UniqueID", Unqid);
                     param.Add("retVal", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
                     conn.Open();
@@ -80,19 +83,46 @@ namespace WebOopPrac_Api.Class
             }
         }
 
+        public async Task<IEnumerable<TodoModel>> GetOneData(int uniqueID)
+        {
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("JDataBase"));
+                {
+                    await conn.OpenAsync();
+                    var res5 = await conn.QueryAsync<TodoModel>("[dbo].[GetSingleTodoItem]", new { UniqueID = uniqueID }, commandType: CommandType.StoredProcedure);
+                    await conn.CloseAsync();
+                    return res5;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+        }
+
+
         public async Task<ServiceResponseModel<IEnumerable<dynamic>>> UpdateData(int id, string title, string description, bool isCompleted)
         {
             var response = new ServiceResponseModel<IEnumerable<dynamic>>();
 
             try
             {
-                using var conn = new SqlConnection(_configuration.GetConnectionString("JDataBase"));
+                int existingUniqueID;
+                using (var conn = new SqlConnection(_configuration.GetConnectionString("JDataBase")))
+                {
+                    conn.Open();
+                    existingUniqueID = await conn.QueryFirstOrDefaultAsync<int>("SELECT UniqueID FROM [dbo].[TodoItems] WHERE Id = @Id", new { Id = id });
+                }
+                using (var conn = new SqlConnection(_configuration.GetConnectionString("JDataBase")))
                 {
                     var param = new DynamicParameters();
                     param.Add("Id", id);
                     param.Add("Title", title);
                     param.Add("Description", description);
                     param.Add("IsCompleted", isCompleted);
+                    param.Add("UniqueID", existingUniqueID);
 
                     conn.Open();
                     var res2 = await conn.QueryAsync("[dbo].[UpdateTodoItems]", param, commandType: CommandType.StoredProcedure);
