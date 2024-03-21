@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using Azure;
+using Dapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -41,7 +42,7 @@ namespace WebOopPrac_Api.Controllers
         }
 
         [HttpGet]
-        [Route("GetData")]
+        [Route("GetAllData")]
         public async Task<IActionResult> AllTodos()
 
         {
@@ -54,6 +55,40 @@ namespace WebOopPrac_Api.Controllers
                     var todoData = await _acc.GetTodoModel();
 
                     Response.Data = todoData;
+                    Response.HttpCode = ServiceResponseStatusCode.Success;
+                    Response.ResponseCode = ServiceResponseCode.Success;
+                }
+                else
+                {
+                    Response.HttpCode = ServiceResponseStatusCode.InternalError;
+                    Response.ResponseCode = ServiceResponseCode.SqlError;
+                    Response.DeveloperMessage = "Invalid Cred empty";
+                    Response.UserMessage = "Please supply all required fields.";
+                }
+            }
+            catch (Exception ee)
+            {
+                Response.HttpCode = ServiceResponseStatusCode.InternalError;
+                Response.ResponseCode = ServiceResponseCode.SqlError;
+                Response.DeveloperMessage = ee.Message;
+                Response.UserMessage = "It seems something went wrong. Please try again.";
+            }
+            return StatusCode((int)Response.HttpCode, Response);
+        }
+
+        [HttpGet]
+        [Route("GetSingleData/{UniqueID}")]
+        public async Task<IActionResult> GetOneData(int UniqueID)
+        {
+            var Response = new ServiceResponseModel<IEnumerable<dynamic>>();
+
+            try
+            {
+                var getOneData = await _acc.GetOneData(UniqueID);
+
+                if (getOneData != null)
+                {
+                    Response.Data = getOneData;
                     Response.HttpCode = ServiceResponseStatusCode.Success;
                     Response.ResponseCode = ServiceResponseCode.Success;
                 }
