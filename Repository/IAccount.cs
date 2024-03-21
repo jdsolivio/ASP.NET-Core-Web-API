@@ -11,5 +11,6 @@ namespace WebOopPrac_Api.Repository
         Task<ServiceResponseModel<IEnumerable<dynamic>>> CredInsert(string title, string description, bool IsCompleted);
         Task<IEnumerable<TodoModel>> GetTodoModel();
         Task<ServiceResponseModel<IEnumerable<dynamic>>> UpdateData(int id, string title, string description, bool isCompleted);
+        Task<ServiceResponseModel<IEnumerable<dynamic>>> DeleteItem(int id);
     }
 }

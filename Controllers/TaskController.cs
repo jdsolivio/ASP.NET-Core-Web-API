@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Dapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using System.Data;
 using WebOopPrac_Api.Models;
 using WebOopPrac_Api.Repository;
 using static WebOopPrac_Api.Models.ServiceResponse;
@@ -78,6 +82,22 @@ namespace WebOopPrac_Api.Controllers
             try
             {
                 ServiceResponseModel<IEnumerable<dynamic>> Response = await _acc.UpdateData(Id, Title, Description, IsCompleted);
+
+                return StatusCode((int)Response.HttpCode, Response);
+            }
+            catch (Exception ee)
+            {
+                return StatusCode(500, new { message = "Internal Server Error" });
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteData/{Id}")]
+        public async Task<IActionResult> DeleteItem(int Id)
+        {
+            try
+            {
+                ServiceResponseModel<IEnumerable<dynamic>> Response = await _acc.DeleteItem(Id);
 
                 return StatusCode((int)Response.HttpCode, Response);
             }
