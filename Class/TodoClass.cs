@@ -1,5 +1,8 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Data;
 using WebOopPrac_Api.Models;
 using WebOopPrac_Api.Repository;
@@ -76,5 +79,47 @@ namespace WebOopPrac_Api.Class
                 throw;
             }
         }
+
+        public async Task<ServiceResponseModel<IEnumerable<dynamic>>> UpdateData(int id, string title, string description, bool isCompleted)
+        {
+            var response = new ServiceResponseModel<IEnumerable<dynamic>>();
+
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("JDataBase"));
+                {
+                    var param = new DynamicParameters();
+                    param.Add("Id", id);
+                    param.Add("Title", title);
+                    param.Add("Description", description);
+                    param.Add("IsCompleted", isCompleted);
+
+                    conn.Open();
+                    var res1 = await conn.QueryAsync("[dbo].[UpdateTodoItems]", param, commandType: CommandType.StoredProcedure);
+                    conn.Close();
+
+                    response.HttpCode = ServiceResponseStatusCode.Success;
+                    response.UserMessage = "Success";
+                    response.ResponseCode = ServiceResponseStatusCode.Success;
+                    response.Data = res1;
+                }
+            }
+            catch (SqlException ee)
+            {
+                response.HttpCode = ServiceResponseStatusCode.InternalError;
+                response.ResponseCode = ServiceResponseCode.SqlError;
+                response.DeveloperMessage = ee.Message;
+                response.UserMessage = "It seems something went wrong on our end. Please try again";
+            }
+            catch (Exception ee)
+            {
+                response.HttpCode = ServiceResponseStatusCode.InternalError;
+                response.ResponseCode = ServiceResponseCode.ProcessException;
+                response.DeveloperMessage = ee.Message;
+                response.UserMessage = "Oops! Something went wrong on our end. Please try again.";
+            }
+            return response;
+        }
+
     }
 }
