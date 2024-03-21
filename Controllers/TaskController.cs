@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebOopPrac_Api.Models;
 using WebOopPrac_Api.Repository;
 using static WebOopPrac_Api.Models.ServiceResponse;
 using static WebOopPrac_Api.Models.TodoModel;
@@ -69,6 +70,23 @@ namespace WebOopPrac_Api.Controllers
             }
             return StatusCode((int)Response.HttpCode, Response);
         }
+
+        [HttpPut]
+        [Route("UpdateData/{Id}/{Title}/{Description}/{IsCompleted}")]
+        public async Task<IActionResult> UpdateData(int Id, string Title, string Description, bool IsCompleted)
+        {
+            try
+            {
+                ServiceResponseModel<IEnumerable<dynamic>> Response = await _acc.UpdateData(Id, Title, Description, IsCompleted);
+
+                return StatusCode((int)Response.HttpCode, Response);
+            }
+            catch (Exception ee)
+            {
+                return StatusCode(500, new { message = "Internal Server Error" });
+            }
+        }
+
 
     }
 }
