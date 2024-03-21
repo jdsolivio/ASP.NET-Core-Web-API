@@ -95,13 +95,51 @@ namespace WebOopPrac_Api.Class
                     param.Add("IsCompleted", isCompleted);
 
                     conn.Open();
-                    var res1 = await conn.QueryAsync("[dbo].[UpdateTodoItems]", param, commandType: CommandType.StoredProcedure);
+                    var res2 = await conn.QueryAsync("[dbo].[UpdateTodoItems]", param, commandType: CommandType.StoredProcedure);
                     conn.Close();
 
                     response.HttpCode = ServiceResponseStatusCode.Success;
                     response.UserMessage = "Success";
                     response.ResponseCode = ServiceResponseStatusCode.Success;
-                    response.Data = res1;
+                    response.Data = res2;
+                }
+            }
+            catch (SqlException ee)
+            {
+                response.HttpCode = ServiceResponseStatusCode.InternalError;
+                response.ResponseCode = ServiceResponseCode.SqlError;
+                response.DeveloperMessage = ee.Message;
+                response.UserMessage = "It seems something went wrong on our end. Please try again";
+            }
+            catch (Exception ee)
+            {
+                response.HttpCode = ServiceResponseStatusCode.InternalError;
+                response.ResponseCode = ServiceResponseCode.ProcessException;
+                response.DeveloperMessage = ee.Message;
+                response.UserMessage = "Oops! Something went wrong on our end. Please try again.";
+            }
+            return response;
+        }
+
+        public async Task<ServiceResponseModel<IEnumerable<dynamic>>> DeleteItem(int id)
+        {
+            var response = new ServiceResponseModel<IEnumerable<dynamic>>();
+
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("JDataBase"));
+                {
+                    var param = new DynamicParameters();
+                    param.Add("Id", id);
+
+                    conn.Open();
+                    var res4 = await conn.QueryAsync("[dbo].[DeleteTodoItem]", param, commandType: CommandType.StoredProcedure);
+                    conn.Close();
+
+                    response.HttpCode = ServiceResponseStatusCode.Success;
+                    response.UserMessage = "Success";
+                    response.ResponseCode = ServiceResponseStatusCode.Success;
+                    response.Data = res4;
                 }
             }
             catch (SqlException ee)
@@ -123,3 +161,5 @@ namespace WebOopPrac_Api.Class
 
     }
 }
+    
+    
