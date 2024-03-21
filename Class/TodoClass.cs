@@ -4,7 +4,6 @@ using System.Data;
 using WebOopPrac_Api.Models;
 using WebOopPrac_Api.Repository;
 using static WebOopPrac_Api.Models.ServiceResponse;
-using static WebOopPrac_Api.Models.TodoModel;
 
 namespace WebOopPrac_Api.Class
 {
@@ -56,25 +55,6 @@ namespace WebOopPrac_Api.Class
                 response.UserMessage = "Oops! Something went wrong on our end. Please try again.";
             }
             return response;
-        }
-
-        public async Task<IEnumerable<TodoModel>> GetTodoModel()
-        {
-            try
-            {
-                using var conn = new SqlConnection(_configuration.GetConnectionString("JDataBase"));
-                {
-                    conn.Open();
-                    var res3 = await conn.QueryAsync<TodoModel>("[dbo].[GetAllTodoItems]", commandType: CommandType.StoredProcedure);
-                    conn.Close();
-                    return res3;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
         }
     }
 }
