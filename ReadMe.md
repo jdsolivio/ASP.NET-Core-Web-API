@@ -2,6 +2,11 @@ This is the output
 
 ![image](https://github.com/jdsolivio/ASP.NET-Core-Web-API/assets/156039126/21863ba2-9d76-442f-8b89-13542a2fb839)
 
+Updated! 
+
+![image](https://github.com/jdsolivio/ASP.NET-Core-Web-API/assets/156039126/a873170b-184c-4136-974c-aa5ae8635f87)
+
+
 
 and this is the response
 
