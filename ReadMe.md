@@ -1,16 +1,22 @@
-This is the output
-
-![image](https://github.com/jdsolivio/ASP.NET-Core-Web-API/assets/156039126/21863ba2-9d76-442f-8b89-13542a2fb839)
-
-Updated! 
+This is the output.
 
 ![image](https://github.com/jdsolivio/ASP.NET-Core-Web-API/assets/156039126/a873170b-184c-4136-974c-aa5ae8635f87)
 
 
 
-and this is the response
+And this is the response
 
-![image](https://github.com/jdsolivio/ASP.NET-Core-Web-API/assets/156039126/e711fa64-4490-4c11-ad6c-c9cbca323178)
+[POST]
+![image](https://github.com/jdsolivio/ASP.NET-Core-Web-API/assets/156039126/77ad2cbf-6fc4-49d8-9e9b-dfd82ca054cc)
+[GET ALL DATA]
+![image](https://github.com/jdsolivio/ASP.NET-Core-Web-API/assets/156039126/76e3bc48-a285-44df-97ee-bb5370806af2)
+[GET SINGLE DATA]
+![image](https://github.com/jdsolivio/ASP.NET-Core-Web-API/assets/156039126/30e04ce1-23f5-4269-bdf9-799b068aabc2)
+[UPDATE]
+![image](https://github.com/jdsolivio/ASP.NET-Core-Web-API/assets/156039126/653e165e-b17e-480d-a969-c1680f81f92e)
+[DELETE]
+![image](https://github.com/jdsolivio/ASP.NET-Core-Web-API/assets/156039126/03bb96ce-a14a-4780-b581-b60272b2d5c1)
+
 
 
 
