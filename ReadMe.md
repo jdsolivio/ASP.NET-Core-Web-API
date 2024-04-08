@@ -10,40 +10,74 @@ and this is the response
 
 
 
-===========================================================================
-                             Q U E R Y
-===========================================================================
-                                                 ==========================
-                                                 ==========================
-                                                 ==========================
-                                                 ==========================
-===========================================================================
-Create a Table  TodoItems                        ==========================
-===========================================================================
+================================
+       Q U E R Y
+================================
+================================
+Create a Table  TodoItems       
+================================
                                                  
                                                  
-  CREATE TABLE TodoItems (                       
-    Id INT IDENTITY(1,1) PRIMARY KEY,            
+  CREATE TABLE TodoItems (  
+##
+    Id INT IDENTITY(1,1) PRIMARY KEY,   
+##
     Title NVARCHAR(MAX),
+##
     Description NVARCHAR(MAX),
+##
     IsCompleted BIT,
+##
     CreatedAt DATETIME DEFAULT GETDATE(),
+##
 	UniqueID INT
+##
 );
 
 
-===========================================================================
-Create a Stored Procedure InsertTodoItems        ==========================
-===========================================================================
+================================
+Create a Table  UserRegistrationTodoItems
+================================
+
+CREATE TABLE UserRegistrationTodoItems (
+##
+Id INT IDENTITY(1,1) PRIMARY KEY,
+##
+Name NVARCHAR(50), 
+##
+LastName NVARCHAR(50), 
+##
+MiddleInitial NVARCHAR(50), 
+##
+BirtDate DATETIME, 
+##
+Email NVARCHAR(50),
+##
+Username NVARCHAR(50),
+##
+Password NVARCHAR(50),
+##
+TermsCondition BIT,
+##
+);
+
+================================
+Create a Stored Procedure InsertTodoItems    
+================================
 
 USE [JDSolivioDB]
+##
 GO
-
+##
 
 SET ANSI_NULLS ON
+##
 GO
+##
 SET QUOTED_IDENTIFIER ON
+##
 GO
+##
 
 
 ALTER PROCEDURE [dbo].[InsertTodoItems]
@@ -60,9 +94,9 @@ BEGIN
 END;
 
 
-===========================================================================
-Create a Stored Procedure UpdateTodoItems        ==========================
-===========================================================================
+================================
+Create a Stored Procedure UpdateTodoItems  
+================================
 
 USE [JDSolivioDB]
 GO
@@ -94,9 +128,9 @@ BEGIN
 END;
 
 
-===========================================================================
-Create a Stored Procedure GetAllTodoItems        ==========================
-===========================================================================
+================================
+Create a Stored Procedure GetAllTodoItems     
+================================
 
 
 USE [JDSolivioDB]
@@ -117,9 +151,9 @@ BEGIN
 END;
 
 
-===========================================================================
-Create a Stored Procedure DeleteTodoItem         ==========================
-===========================================================================
+================================
+Create a Stored Procedure DeleteTodoItem      
+================================
 
 
 USE [JDSolivioDB]
@@ -142,9 +176,9 @@ BEGIN
 END;
 
 
-===========================================================================
-Create a Stored Procedure GetSingleTodoItem         ==========================
-===========================================================================
+================================
+Create a Stored Procedure GetSingleTodoItem   
+================================
 
 
 USE [JDSolivioDB]
@@ -164,4 +198,117 @@ BEGIN
     SELECT *
     FROM TodoItems
     WHERE UniqueID = @UniqueID;
+END;
+
+================================
+Create a Stored Procedure InsertUserTodoItem   
+================================
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE InsertUserTodoItem
+    @Name NVARCHAR(50),
+    @LastName NVARCHAR(50),
+    @MiddleInitial NVARCHAR(50),
+    @BirthDate DATE,
+    @Email NVARCHAR(50),
+    @Username NVARCHAR(50),
+    @Password NVARCHAR(50),
+    @TermsCondition BIT,
+    @retVal INT OUTPUT
+	AS 
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN TRY
+        INSERT INTO [JDSolivioDB].[dbo].[UserRegistrationTodoItems] (Name, LastName, MiddleInitial, BirtDate, Email, Username, Password, TermsCondition)
+        VALUES (@Name, @LastName, @MiddleInitial, @BirthDate, @Email, @Username, @Password, @TermsCondition);      
+        SET @retVal = 200;
+    END TRY
+    BEGIN CATCH
+        SET @retVal = ERROR_NUMBER();
+    END CATCH
+END;
+
+================================
+Create a Stored Procedure GetAllUserRegistrationTodoItems 
+================================
+
+CREATE PROCEDURE GetAllUserRegistrationTodoItems
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT [Id],
+           [Name],
+           [LastName],
+           [MiddleInitial],
+           [BirtDate],
+           [Email],
+           [Username],
+           [Password],
+           [TermsCondition]
+    FROM [JDSolivioDB].[dbo].[UserRegistrationTodoItems];
+END;
+
+================================
+Create a Stored Procedure GetUsernamePassword 
+================================
+
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+Create PROCEDURE GetUsernamePassword
+	@Username NVARCHAR(50),
+	@Password NVARCHAR(50)
+AS
+BEGIN
+    SELECT *
+    FROM UserRegistrationTodoItems
+    WHERE 
+	Username = @Username
+	AND Password = @Password;
+END;
+
+
+================================
+Create a Stored Procedure UpdateUserDataTodoItem 
+================================
+
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+Create PROCEDURE UpdateUserDataTodoItem
+    @Id INT,
+    @Name NVARCHAR(50),
+    @LastName NVARCHAR(50),
+    @MiddleInitial NVARCHAR(50),
+    @BirthDate DATE,
+    @Email NVARCHAR(50),
+    @Username NVARCHAR(50),
+    @Password NVARCHAR(50),
+    @TermsCondition BIT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE [dbo].[UserRegistrationTodoItems]
+    SET 
+        [Name] = @Name,
+        [LastName] = @LastName,
+		[MiddleInitial] = @MiddleInitial,
+		[BirtDate] = @BirthDate,
+		[Email] = @Email,
+		[Username] = @Username,
+		[Password] = @Password,
+		[TermsCondition] = @TermsCondition
+    WHERE
+        [Id] = @Id;
 END;
