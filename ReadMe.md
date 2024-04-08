@@ -21,40 +21,74 @@ And this is the response
 
 
 
-===========================================================================
-                             Q U E R Y
-===========================================================================
-                                                 ==========================
-                                                 ==========================
-                                                 ==========================
-                                                 ==========================
-===========================================================================
-Create a Table  TodoItems                        ==========================
-===========================================================================
+================================
+       Q U E R Y
+================================
+================================
+Create a Table  TodoItems       
+================================
                                                  
                                                  
-  CREATE TABLE TodoItems (                       
-    Id INT IDENTITY(1,1) PRIMARY KEY,            
+  CREATE TABLE TodoItems (  
+##
+    Id INT IDENTITY(1,1) PRIMARY KEY,   
+##
     Title NVARCHAR(MAX),
+##
     Description NVARCHAR(MAX),
+##
     IsCompleted BIT,
+##
     CreatedAt DATETIME DEFAULT GETDATE(),
+##
 	UniqueID INT
+##
 );
 
 
-===========================================================================
-Create a Stored Procedure InsertTodoItems        ==========================
-===========================================================================
+================================
+Create a Table  UserRegistrationTodoItems
+================================
+
+CREATE TABLE UserRegistrationTodoItems (
+##
+Id INT IDENTITY(1,1) PRIMARY KEY,
+##
+Name NVARCHAR(50), 
+##
+LastName NVARCHAR(50), 
+##
+MiddleInitial NVARCHAR(50), 
+##
+BirtDate DATETIME, 
+##
+Email NVARCHAR(50),
+##
+Username NVARCHAR(50),
+##
+Password NVARCHAR(50),
+##
+TermsCondition BIT,
+##
+);
+
+================================
+Create a Stored Procedure InsertTodoItems    
+================================
 
 USE [JDSolivioDB]
+##
 GO
-
+##
 
 SET ANSI_NULLS ON
+##
 GO
+##
 SET QUOTED_IDENTIFIER ON
+##
 GO
+##
 
 
 ALTER PROCEDURE [dbo].[InsertTodoItems]
@@ -71,9 +105,9 @@ BEGIN
 END;
 
 
-===========================================================================
-Create a Stored Procedure UpdateTodoItems        ==========================
-===========================================================================
+================================
+Create a Stored Procedure UpdateTodoItems  
+================================
 
 USE [JDSolivioDB]
 GO
@@ -105,9 +139,9 @@ BEGIN
 END;
 
 
-===========================================================================
-Create a Stored Procedure GetAllTodoItems        ==========================
-===========================================================================
+================================
+Create a Stored Procedure GetAllTodoItems     
+================================
 
 
 USE [JDSolivioDB]
@@ -128,9 +162,9 @@ BEGIN
 END;
 
 
-===========================================================================
-Create a Stored Procedure DeleteTodoItem         ==========================
-===========================================================================
+================================
+Create a Stored Procedure DeleteTodoItem      
+================================
 
 
 USE [JDSolivioDB]
@@ -153,9 +187,9 @@ BEGIN
 END;
 
 
-===========================================================================
-Create a Stored Procedure GetSingleTodoItem         ==========================
-===========================================================================
+================================
+Create a Stored Procedure GetSingleTodoItem   
+================================
 
 
 USE [JDSolivioDB]
@@ -176,3 +210,4 @@ BEGIN
     FROM TodoItems
     WHERE UniqueID = @UniqueID;
 END;
+
