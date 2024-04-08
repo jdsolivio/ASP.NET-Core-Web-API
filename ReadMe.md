@@ -20,14 +20,11 @@ And this is the response
 
 
 
+== Q U E R Y ==
+== 
 
-================================
-       Q U E R Y
-================================
-================================
-Create a Table  TodoItems       
-================================
-                                                 
+== Create a Table  TodoItems ==
+
 ##                                                
     CREATE TABLE TodoItems (  
       Id INT IDENTITY(1,1) PRIMARY KEY,   
@@ -39,9 +36,9 @@ Create a Table  TodoItems
     );
 
 
-================================
-Create a Table  UserRegistrationTodoItems
-================================
+
+== Create a Table  UserRegistrationTodoItems ==
+
 
 ##
     CREATE TABLE UserRegistrationTodoItems (
@@ -56,9 +53,8 @@ Create a Table  UserRegistrationTodoItems
         TermsCondition BIT,
     );
 
-================================
-Create a Stored Procedure InsertTodoItems    
-================================
+
+== Create a Stored Procedure InsertTodoItems ==
 
 ##
     USE [JDSolivioDB]
@@ -84,9 +80,7 @@ Create a Stored Procedure InsertTodoItems
     END;
 
 
-================================
-Create a Stored Procedure UpdateTodoItems  
-================================
+== Create a Stored Procedure UpdateTodoItems ==
 
 ##
     USE [JDSolivioDB]
@@ -119,9 +113,7 @@ Create a Stored Procedure UpdateTodoItems
     END;
 
 
-================================
-Create a Stored Procedure GetAllTodoItems     
-================================
+== Create a Stored Procedure GetAllTodoItems ==
 
 ##
     USE [JDSolivioDB]
@@ -142,9 +134,7 @@ Create a Stored Procedure GetAllTodoItems
     END;
 
 
-================================
-Create a Stored Procedure DeleteTodoItem      
-================================
+== Create a Stored Procedure DeleteTodoItem ==
 
 #
     USE [JDSolivioDB]
@@ -167,9 +157,7 @@ Create a Stored Procedure DeleteTodoItem
     END;
 
 
-================================
-Create a Stored Procedure GetSingleTodoItem   
-================================
+== Create a Stored Procedure GetSingleTodoItem  ==
 
 ##
     USE [JDSolivioDB]
@@ -191,9 +179,8 @@ Create a Stored Procedure GetSingleTodoItem
         WHERE UniqueID = @UniqueID;
     END;
 
-================================
-Create a Stored Procedure InsertUserTodoItem   
-================================
+
+== Create a Stored Procedure InsertUserTodoItem ==
 
 ##
     SET ANSI_NULLS ON
@@ -224,9 +211,8 @@ Create a Stored Procedure InsertUserTodoItem
     END CATCH
     END;
 
-================================
-Create a Stored Procedure GetAllUserRegistrationTodoItems 
-================================
+
+== Create a Stored Procedure GetAllUserRegistrationTodoItems ==
 
 ##
     CREATE PROCEDURE GetAllUserRegistrationTodoItems
@@ -246,9 +232,7 @@ Create a Stored Procedure GetAllUserRegistrationTodoItems
     FROM [JDSolivioDB].[dbo].[UserRegistrationTodoItems];
     END;
 
-================================
-Create a Stored Procedure GetUsernamePassword 
-================================
+== Create a Stored Procedure GetUsernamePassword ==
 
 ##
 
@@ -270,9 +254,7 @@ Create a Stored Procedure GetUsernamePassword
     END;
 
 
-================================
-Create a Stored Procedure UpdateUserDataTodoItem 
-================================
+== Create a Stored Procedure UpdateUserDataTodoItem ==
 
 ##
     SET ANSI_NULLS ON
